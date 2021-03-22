@@ -13,6 +13,6 @@
 
 
 Route::get('/', 'Usuario@Cadastrar');
-Route::post('/salvar', 'Usuario@salvar');
+Route::post('/salvar', 'Usuario@salvar')->name('salvar');
 
 
