@@ -4,34 +4,38 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB as DB;
+use Illuminate\Support\Facades\Hash as Hash;
 
 class Usuario extends Model
 {
     //
-    protected $connection = 'mysql';
+    protected $connection = 'sqlite';
     protected $table = 'usuario';
 
     public static function listar(int $limite)
     {
-        $sql = self::select([
+        $sql = self::where("id",">",2)->select([
             "id",
             "nome",
             "email",
+            "senha",
             "data_cadastro"
-        ])
-            ->limit($limite);
+        ])->limit($limite);
 
-        dd($sql->toSql());
+        return $sql->get();
+
     }
 
-    public function cadastrar(Request $request)
+    public static function  cadastrar(Request $request)
     {
-        $sql = self::insert([
+       return self::insert([
             "nome" => $request->input('nome'),
             "email" => $request->input('email'),
-            "data_cadastro" => DB::raw('NOW()')
+            "senha" => Hash::make($request->input('senha')),
+            "data_cadastro" => new Carbon()
         ]);
-
-        dd($sql->toSql(), $request->all());
+        
     }
 }

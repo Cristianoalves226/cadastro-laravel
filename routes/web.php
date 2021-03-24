@@ -12,7 +12,5 @@
 */
 
 
-Route::get('/', 'Usuario@Cadastrar');
+Route::get('/', 'Usuario@Cadastrar')->name('home');
 Route::post('/salvar', 'Usuario@salvar')->name('salvar');
-
-
